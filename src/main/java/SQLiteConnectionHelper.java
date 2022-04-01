@@ -13,7 +13,7 @@ public final class SQLiteConnectionHelper {
 	private SQLiteConnectionHelper() throws SQLException {
 		try{
 			//ToDo change DB name
-			con = DriverManager.getConnection("jdbc:sqlite:src//main//db//test_db.db"); 
+			con = DriverManager.getConnection("jdbc:sqlite:src//main//db//records_db.db"); 
     	} catch(SQLException exc) {
 			exc.printStackTrace();
 		}

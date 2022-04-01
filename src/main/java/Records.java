@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Records {
-	ArrayList<Record> records;
+	private ArrayList<Record> records;
 	private Statement statement;
 	
 	//Constructor
@@ -28,19 +28,22 @@ public class Records {
 	//Method, which updates records list according DB
 	private void updateRecords() throws SQLException {
 		ResultSet rs = statement.executeQuery( "SELECT * FROM records" );
-		
+		records = new ArrayList<Record>();
 		//Reading values from DB into the records list
 		while(rs.next()){
-            addRecord( rs.getString( "name" ), rs.getInt( "deadline" ), rs.getString( "description" ) ); 
-        }
+			records.add(new Record(rs.getString("name"), rs.getString("date"), rs.getString("description"))); 
+		}
 	}
 	
-	// Add or update record by name with date in 
-	// INTEGER format (as Unix Time, the number of seconds since 1970-01-01 00:00:00 UTC)   
-	public void addRecord( String name, int deadline, String description ) {
-		var newDeadline = new Date( deadline );
-		addOrUpdateRecord( name, newDeadline, description );
-		
+	// Add or update record by name with date in String format  
+	public void addOrUpdateRecord(String name, String deadline, String description) {
+		Date newDeadline = Date.valueOf(deadline);
+		addOrUpdateRecord(name, newDeadline, description);
+	}
+	
+	//Add or update record
+	public void addOrUpdateRecord(Record rec) {
+		addOrUpdateRecord(rec.getName(), rec.getDeadline(), rec.getDescription());
 	}
 	
 	//Add or update record by name with date in sql.Date format 
@@ -56,29 +59,28 @@ public class Records {
 		//Create query String, then initialize it with UPDATE or INSERT query depending on whether there is a record with the name
 		String query;
 		if( exists ) {
-			query = String.format("UPDATE records SET name = %s, date = %d, description = %s WHERE name = %s;", newRecord.getName(),
+			query = String.format("UPDATE records SET name = '%s', date = '%s', description = '%s' WHERE name = '%s';", newRecord.getName(),
 					newRecord.getDeadline(), newRecord.getDescription(), newRecord.getName());
 		} else {
-			query = String.format( "INSERT INTO records (name, date, description) VALUES(%s, %d, %s);", 
-					newRecord.getName(), newRecord.getDeadline(), newRecord.getDescription() );	
+			query = String.format( "INSERT INTO records (name, date, description) VALUES('%s', '%s', '%s');", 
+					newRecord.getName(), newRecord.getDeadline().toString(), newRecord.getDescription() );	
 		}
 		//Execute UPDATE or INSERT query and update records list 
 		try {
-			statement.executeQuery(query);
+			statement.executeUpdate(query);
 			updateRecords();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	
 	//Delete record by name; If there is not record with the name, it will return -1;
 	public int deleteRecord( String recordName ) {
 		String query;
 		if( existsInRecordsDB( recordName ) ) {
-			query = "DELETE FROM records WHERE name = " + recordName + ";";
+			query = "DELETE FROM records WHERE name = '" + recordName + "';";
 			try {
-				statement.executeQuery( query );
+				statement.executeUpdate( query );
 				updateRecords();
 			} catch ( SQLException e ) {
 				e.printStackTrace();
@@ -104,5 +106,12 @@ public class Records {
 		return exists;
 	}
 	
+	public ArrayList<Record> getRecords() {
+		return records;
+	}
+	
+	public Record getRecordByName(String name) {
+		return records.stream().filter(record -> name.equals(record.getName())).findFirst().orElse(null);
+	}
 	
 }

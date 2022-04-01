@@ -13,6 +13,10 @@ public class Record {
 		this.description = description;
 	}
 
+	public Record(String name, String strDeadline, String description) {
+		this(name, Date.valueOf(strDeadline), description);
+	}
+
 	//Getters
 	public String getName() {
 		return name;
