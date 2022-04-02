@@ -4,8 +4,6 @@ import java.util.Scanner;
 public class App {
 
 	// ToDo: think about deprecating Data class and using just formatted String;
-	// ToDo: Name can include spaces, but input is splitted by space, so there is a problem here. 
-	// Maybe, change split method to something, that will split only first word (command) from all other input
 	
 	
 	

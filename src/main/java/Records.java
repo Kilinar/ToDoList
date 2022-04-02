@@ -51,7 +51,7 @@ public class Records {
 		Record newRecord = new Record( name, deadline, description );
 				
 		//ToDo delete or change output to logging after debugging
-		System.out.println(newRecord);
+		//System.out.println(newRecord);
 		
 		//Check if there is a record with the same name as the new record.
 		boolean exists = existsInRecordsDB( newRecord.getName() );

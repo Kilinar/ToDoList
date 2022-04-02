@@ -12,7 +12,6 @@ public final class SQLiteConnectionHelper {
 	// We create a connection in private Constructor
 	private SQLiteConnectionHelper() throws SQLException {
 		try{
-			//ToDo change DB name
 			con = DriverManager.getConnection("jdbc:sqlite:src//main//db//records_db.db"); 
     	} catch(SQLException exc) {
 			exc.printStackTrace();
