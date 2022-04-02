@@ -22,6 +22,7 @@ public class App {
 		boolean isActive = true;
 		
 		while(isActive) {
+			System.out.println("\n\n");
 			//In the beginning of the cycle the full list of records is written in console.
 			var recordsList = records.getRecords();
 			for(Record rec : recordsList) {
@@ -31,11 +32,12 @@ public class App {
 				else
 					System.out.println(tempOutput);
 			}
+			System.out.print("\n");
 			
 			// Then the console asks user to input operation
 			System.out.println("Please, write command.\nWrite help to see list of all commands.");
 			// And process it
-			var input = sc.nextLine().trim().split(" ");
+			var input = sc.nextLine().trim().split(" ", 2);
 			try {
 				switch( input[0].toLowerCase() ) {
 					case "help":
@@ -103,6 +105,7 @@ public class App {
 				System.out.println("You didn't provide a record name.");
 				continue;
 			}
+			
 		}
 		
 		
@@ -110,5 +113,5 @@ public class App {
 	}
 	
 	
-
+	
 }

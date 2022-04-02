@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ToDoList_rep</groupId>
   <artifactId>ToDoList_rep</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   
   <dependencies>
   	<!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
